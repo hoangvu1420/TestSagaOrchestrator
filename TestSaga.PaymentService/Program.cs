@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMassTransit(x =>
 {
 	// Register the consumer
-	x.AddConsumer<InventoryCheckedConsumer>();
+	x.AddConsumer<InventoryAvailableConsumer>();
 
 	// Configure RabbitMQ
 	x.UsingRabbitMq((context, cfg) =>
@@ -31,7 +31,7 @@ builder.Services.AddMassTransit(x =>
 		cfg.ReceiveEndpoint("payment-service", e =>
 		{
 			// Configure consumer to handle InventoryAvailable events
-			e.ConfigureConsumer<InventoryCheckedConsumer>(context);
+			e.ConfigureConsumer<InventoryAvailableConsumer>(context);
 		});
 	});
 });
