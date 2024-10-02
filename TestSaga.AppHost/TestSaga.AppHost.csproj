@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>9b9f5f6c-32b0-4956-bd8f-175bc02963c9</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.2.1" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="8.2.1" />
+    <PackageReference Include="Aspire.Hosting.Redis" Version="8.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestSaga.WebFrontend\TestSaga.WebFrontend.csproj" />
+    <ProjectReference Include="..\TestSaga.InventoryService\TestSaga.InventoryService.csproj" />
+    <ProjectReference Include="..\TestSaga.OrderService\TestSaga.OrderService.csproj" />
+    <ProjectReference Include="..\TestSaga.PaymentService\TestSaga.PaymentService.csproj" />
+    <ProjectReference Include="..\TestSaga.SagaOrchestrator\TestSaga.SagaOrchestrator.csproj" />
+    <ProjectReference Include="..\TestSaga.ShippingService\TestSaga.ShippingService.csproj" />
+  </ItemGroup>
+
+</Project>

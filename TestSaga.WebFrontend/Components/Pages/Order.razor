@@ -1,0 +1,138 @@
+﻿@page "/order"
+@rendermode InteractiveServer
+
+@using Microsoft.AspNetCore.SignalR.Client
+@using TestSaga.WebFrontend.Contracts
+@using TestSaga.WebFrontend.Services
+
+@inject NavigationManager Navigation
+@inject OrderServiceClient OrderServiceClient
+
+<PageTitle>Order</PageTitle>
+
+<h1>Order</h1>
+
+<!-- Order Form -->
+<EditForm Model="_orderRequest" OnValidSubmit="HandleValidOrderSubmit" FormName="orderForm">
+	<div class="form-group">
+		<label for="productId">Product ID</label>
+		<InputText id="productId" class="form-control" @bind-Value="_orderRequest.ProductId" />
+	</div>
+
+	<div class="form-group">
+		<label for="quantity">Quantity</label>
+		<InputNumber id="quantity" class="form-control" @bind-Value="_orderRequest.Quantity" />
+	</div>
+
+	<button type="submit" class="btn btn-primary mt-2">Submit Order</button>
+</EditForm>
+
+<!-- Order List -->
+@foreach (var orderLogs in _orderLogs)
+{
+	<ul class="list-group mt-2">
+		@foreach (var log in orderLogs)
+		{
+			<li class="list-group-item @(log.IsError ? "list-group-item-warning" : "list-group-item-success")">@log.Message</li>
+		}
+	</ul>
+}
+
+@code {
+	private HubConnection? _hubConnection;
+	private readonly List<List<OrderLog>> _orderLogs = new();
+	private readonly OrderRequest _orderRequest = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		_hubConnection = new HubConnectionBuilder()
+			.WithUrl(Navigation.ToAbsoluteUri("/orderHub"))
+			.Build();
+
+		MapHub();
+
+		await _hubConnection.StartAsync();
+	}
+
+	private void MapHub()
+	{
+		if (_hubConnection == null) return;
+
+		_hubConnection.On<string>("OrderSubmitted", (customMessage) =>
+		{
+			AddLog(false, customMessage);
+		});
+
+		_hubConnection.On<string>("InventoryAvailable", (customMessage) =>
+		{
+			AddLog(false, customMessage);
+		});
+
+		_hubConnection.On<string>("InventoryUnavailable", (customMessage) =>
+		{
+			AddLog(true, customMessage);
+		});
+
+		_hubConnection.On<string>("PaymentSucceeded", (customMessage) =>
+		{
+			AddLog(false, customMessage);
+		});
+
+		_hubConnection.On<string>("PaymentFailed", (customMessage) =>
+		{
+			AddLog(true, customMessage);
+		});
+
+		_hubConnection.On<string>("OrderShipped", (customMessage) =>
+		{
+			AddLog(false, customMessage);
+		});
+
+		_hubConnection.On<string>("OrderCancelled", (customMessage) =>
+		{
+			AddLog(true, customMessage);
+		});
+	}
+
+	private void AddLog(bool isError, string message)
+	{
+		if (_orderLogs.Count == 0)
+		{
+			_orderLogs.Add([]);
+		}
+		_orderLogs.Last().Add(new OrderLog { IsError = isError, Message = message });
+		InvokeAsync(StateHasChanged);
+	}
+
+	private async Task HandleValidOrderSubmit()
+	{
+		try
+		{
+			_orderLogs.Add([]);
+			AddLog(false, "Order submitted");
+			await OrderServiceClient.SubmitOrderAsync(_orderRequest);
+		}
+		catch (Exception ex)
+		{
+			AddLog(true, $"Error: {ex.Message}");
+		}
+		finally
+		{
+			await InvokeAsync(StateHasChanged);
+		}
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_hubConnection is not null)
+		{
+			await _hubConnection.DisposeAsync();
+		}
+	}
+
+	private class OrderLog
+	{
+		public string Message { get; init; } = string.Empty;
+		public bool IsError { get; init; }
+	}
+}

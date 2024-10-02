@@ -1,0 +1,59 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"     # RabbitMQ default port for messaging
+      - "15672:15672"   # RabbitMQ Management UI
+
+
+  testsaga.inventory-service:
+    image: ${DOCKER_REGISTRY-}testsagainventoryservice
+    build:
+      context: .
+      dockerfile: TestSaga.InventoryService/Dockerfile
+    depends_on:
+      - rabbitmq
+
+
+  testsaga.order-service:
+    image: ${DOCKER_REGISTRY-}testsagaorderservice
+    build:
+      context: .
+      dockerfile: TestSaga.OrderService/Dockerfile
+    depends_on:
+      - rabbitmq
+
+
+  testsaga.payment-service:
+    image: ${DOCKER_REGISTRY-}testsagapaymentservice
+    build:
+      context: .
+      dockerfile: TestSaga.PaymentService/Dockerfile
+    depends_on:
+      - rabbitmq
+
+
+  testsaga.shipping-service:
+    image: ${DOCKER_REGISTRY-}testsagashippingservice
+    build:
+      context: .
+      dockerfile: TestSaga.ShippingService/Dockerfile
+    depends_on:
+      - rabbitmq
+
+
+  testsaga.saga-orchestrator:
+    image: ${DOCKER_REGISTRY-}testsagasagaorchestrator
+    build:
+      context: .
+      dockerfile: TestSaga.SagaOrchestrator/Dockerfile
+    depends_on:
+      - rabbitmq
+
+
+  testsaga.webfrontend:
+    image: ${DOCKER_REGISTRY-}testsagawebfrontend
+    build:
+      context: .
+      dockerfile: TestSaga.WebFrontend/Dockerfile
+

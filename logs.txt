@@ -1,0 +1,74 @@
+-- Succeeded Flow
+2024-09-29 20:49:14 TestSaga.OrderService      | info: Program[0]
+2024-09-29 20:49:14 TestSaga.OrderService      |       Published OrderSubmitted event for order: 4b98d013-f174-4113-8a70-2109b8eaf39a
+2024-09-29 20:49:15 TestSaga.InventoryService  | info: TestSaga.InventoryService.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:49:15 TestSaga.InventoryService  |       Checking inventory for product product1...
+2024-09-29 20:49:15 TestSaga.SagaOrchestrator  | Order Saga initialized, CorrelationId: 4b98d013-f174-4113-8a70-2109b8eaf39a
+2024-09-29 20:49:15 TestSaga.SagaOrchestrator  | info: TestSaga.SagaOrchestrator.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:49:15 TestSaga.SagaOrchestrator  |       Order OrderSubmitted: 4b98d013-f174-4113-8a70-2109b8eaf39a
+2024-09-29 20:49:17 TestSaga.InventoryService  | info: TestSaga.InventoryService.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:49:17 TestSaga.InventoryService  |       Product product1 is available
+2024-09-29 20:49:17 TestSaga.SagaOrchestrator  | info: TestSaga.SagaOrchestrator.Consumers.InventoryAvailableConsumer[0]
+2024-09-29 20:49:17 TestSaga.SagaOrchestrator  |       Inventory Available for OrderId: 4b98d013-f174-4113-8a70-2109b8eaf39a
+2024-09-29 20:49:17 TestSaga.InventoryService  | info: TestSaga.InventoryService.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:49:17 TestSaga.InventoryService  |       Published InventoryAvailable event for order: 4b98d013-f174-4113-8a70-2109b8eaf39a
+2024-09-29 20:49:17 TestSaga.PaymentService    | info: TestSaga.PaymentService.Consumers.InventoryCheckedConsumer[0]
+2024-09-29 20:49:17 TestSaga.PaymentService    |       Processing payment for order 4b98d013-f174-4113-8a70-2109b8eaf39a...
+2024-09-29 20:49:19 TestSaga.PaymentService    | info: TestSaga.PaymentService.Consumers.InventoryCheckedConsumer[0]
+2024-09-29 20:49:19 TestSaga.PaymentService    |       Payment for order 4b98d013-f174-4113-8a70-2109b8eaf39a is successful
+2024-09-29 20:49:19 TestSaga.SagaOrchestrator  | info: TestSaga.SagaOrchestrator.Consumers.PaymentSucceededConsumer[0]
+2024-09-29 20:49:19 TestSaga.SagaOrchestrator  |       Payment Succeeded for OrderId: 4b98d013-f174-4113-8a70-2109b8eaf39a
+2024-09-29 20:49:19 TestSaga.PaymentService    | info: TestSaga.PaymentService.Consumers.InventoryCheckedConsumer[0]
+2024-09-29 20:49:19 TestSaga.PaymentService    |       Published PaymentSucceeded event for order: 4b98d013-f174-4113-8a70-2109b8eaf39a
+2024-09-29 20:49:19 TestSaga.ShippingService   | info: TestSaga.ShippingService.Consumers.PaymentSucceededConsumer[0]
+2024-09-29 20:49:19 TestSaga.ShippingService   |       Shipping order 4b98d013-f174-4113-8a70-2109b8eaf39a...
+2024-09-29 20:49:21 TestSaga.ShippingService   | info: TestSaga.ShippingService.Consumers.PaymentSucceededConsumer[0]
+2024-09-29 20:49:21 TestSaga.ShippingService   |       Published OrderShipped event for order: 4b98d013-f174-4113-8a70-2109b8eaf39a
+2024-09-29 20:49:21 TestSaga.SagaOrchestrator  | info: TestSaga.SagaOrchestrator.Consumers.OrderShippedConsumer[0]
+2024-09-29 20:49:21 TestSaga.SagaOrchestrator  |       Order OrderShipped: 4b98d013-f174-4113-8a70-2109b8eaf39a, OrderShipped Date: 09/29/2024 13:49:21
+
+-- Failed Flow: PaymentFailed
+2024-09-29 20:50:46 TestSaga.SagaOrchestrator  | info: TestSaga.SagaOrchestrator.Worker[0]
+2024-09-29 20:50:46 TestSaga.SagaOrchestrator  |       Orchestrator Worker running at: 09/29/2024 13:50:46 +00:00
+2024-09-29 20:50:49 TestSaga.SagaOrchestrator  | Order Saga initialized, CorrelationId: 0c73db9d-b771-4513-a652-9d6cebcdb16f
+2024-09-29 20:50:49 TestSaga.SagaOrchestrator  | info: TestSaga.SagaOrchestrator.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:50:49 TestSaga.SagaOrchestrator  |       Order OrderSubmitted: 0c73db9d-b771-4513-a652-9d6cebcdb16f
+2024-09-29 20:50:49 TestSaga.InventoryService  | info: TestSaga.InventoryService.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:50:49 TestSaga.InventoryService  |       Checking inventory for product product1...
+2024-09-29 20:50:49 TestSaga.OrderService      | info: Program[0]
+2024-09-29 20:50:49 TestSaga.OrderService      |       Published OrderSubmitted event for order: 0c73db9d-b771-4513-a652-9d6cebcdb16f
+2024-09-29 20:50:51 TestSaga.InventoryService  | info: TestSaga.InventoryService.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:50:51 TestSaga.InventoryService  |       Product product1 is available
+2024-09-29 20:50:51 TestSaga.SagaOrchestrator  | info: TestSaga.SagaOrchestrator.Consumers.InventoryAvailableConsumer[0]
+2024-09-29 20:50:51 TestSaga.SagaOrchestrator  |       Inventory Available for OrderId: 0c73db9d-b771-4513-a652-9d6cebcdb16f
+2024-09-29 20:50:51 TestSaga.PaymentService    | info: TestSaga.PaymentService.Consumers.InventoryCheckedConsumer[0]
+2024-09-29 20:50:51 TestSaga.PaymentService    |       Processing payment for order 0c73db9d-b771-4513-a652-9d6cebcdb16f...
+2024-09-29 20:50:51 TestSaga.InventoryService  | info: TestSaga.InventoryService.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:50:51 TestSaga.InventoryService  |       Published InventoryAvailable event for order: 0c73db9d-b771-4513-a652-9d6cebcdb16f
+2024-09-29 20:50:53 TestSaga.PaymentService    | info: TestSaga.PaymentService.Consumers.InventoryCheckedConsumer[0]
+2024-09-29 20:50:53 TestSaga.PaymentService    |       Payment for order 0c73db9d-b771-4513-a652-9d6cebcdb16f is failed
+2024-09-29 20:50:53 TestSaga.PaymentService    | info: TestSaga.PaymentService.Consumers.InventoryCheckedConsumer[0]
+2024-09-29 20:50:53 TestSaga.PaymentService    |       Published PaymentFailed event for order: 0c73db9d-b771-4513-a652-9d6cebcdb16f
+2024-09-29 20:50:53 TestSaga.SagaOrchestrator  | info: TestSaga.SagaOrchestrator.Consumers.PaymentFailedConsumer[0]
+2024-09-29 20:50:53 TestSaga.SagaOrchestrator  |       Payment Failed for OrderId: 0c73db9d-b771-4513-a652-9d6cebcdb16f - Reason: Insufficient balance
+2024-09-29 20:50:53 TestSaga.SagaOrchestrator  | Published CancelOrder command for order: 0c73db9d-b771-4513-a652-9d6cebcdb16f
+2024-09-29 20:50:55 TestSaga.OrderService      | info: TestSaga.OrderService.Consumers.CancelOrderConsumer[0]
+2024-09-29 20:50:55 TestSaga.OrderService      |       Order Cancelled: 0c73db9d-b771-4513-a652-9d6cebcdb16f
+
+-- Failed Flow: InventoryUnavailable
+2024-09-29 20:51:58 TestSaga.SagaOrchestrator  | Order Saga initialized, CorrelationId: 66d5cfcb-d186-46f3-95de-543be0e11665
+2024-09-29 20:51:58 TestSaga.InventoryService  | info: TestSaga.InventoryService.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:51:58 TestSaga.InventoryService  |       Checking inventory for product product5...
+2024-09-29 20:51:58 TestSaga.OrderService      | info: Program[0]
+2024-09-29 20:51:58 TestSaga.OrderService      |       Published OrderSubmitted event for order: 66d5cfcb-d186-46f3-95de-543be0e11665
+2024-09-29 20:51:58 TestSaga.SagaOrchestrator  | info: TestSaga.SagaOrchestrator.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:51:58 TestSaga.SagaOrchestrator  |       Order OrderSubmitted: 66d5cfcb-d186-46f3-95de-543be0e11665
+2024-09-29 20:52:00 TestSaga.InventoryService  | info: TestSaga.InventoryService.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:52:00 TestSaga.InventoryService  |       Product product5 is not available
+2024-09-29 20:52:00 TestSaga.InventoryService  | info: TestSaga.InventoryService.Consumers.OrderSubmittedConsumer[0]
+2024-09-29 20:52:00 TestSaga.InventoryService  |       Published InventoryUnavailable event for order: 66d5cfcb-d186-46f3-95de-543be0e11665
+2024-09-29 20:52:00 TestSaga.SagaOrchestrator  | info: TestSaga.SagaOrchestrator.Consumers.InventoryUnavailableConsumer[0]
+2024-09-29 20:52:00 TestSaga.SagaOrchestrator  |       Inventory Unavailable for OrderId: 66d5cfcb-d186-46f3-95de-543be0e11665 - Reason: Product not found
+2024-09-29 20:52:00 TestSaga.SagaOrchestrator  | Published CancelOrder command for order: 66d5cfcb-d186-46f3-95de-543be0e11665
+2024-09-29 20:52:02 TestSaga.OrderService      | info: TestSaga.OrderService.Consumers.CancelOrderConsumer[0]
+2024-09-29 20:52:02 TestSaga.OrderService      |       Order Cancelled: 66d5cfcb-d186-46f3-95de-543be0e11665

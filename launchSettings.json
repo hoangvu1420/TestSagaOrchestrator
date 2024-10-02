@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "testsaga.orchestrator": "StartDebugging",
+        "testsaga.sagaorchestrator": "StartDebugging",
+        "testsaga.inventoryservice": "StartDebugging",
+        "testsaga.orderservice": "StartDebugging",
+        "testsaga.shippingservice": "StartDebugging",
+        "testsaga.paymentservice": "StartDebugging",
+        "testsaga.webfrontend": "StartDebugging"
+      }
+    }
+  }
+}

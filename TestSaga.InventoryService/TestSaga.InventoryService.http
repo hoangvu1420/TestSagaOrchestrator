@@ -1,0 +1,6 @@
+@TestSaga.InventoryService_HostAddress = http://localhost:5103
+
+GET {{TestSaga.InventoryService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
